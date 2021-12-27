@@ -1,0 +1,106 @@
+databaseChangeLog:
+  - changeSet:
+      id: initial
+      author: skylvsme
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: users_id
+              - column:
+                  name: login
+                  type: varchar(24)
+                  constraints:
+                    unique: true
+              - column:
+                  name: password
+                  type: varchar
+              - column:
+                  name: name
+                  type: varchar
+              - column:
+                  name: creation_date
+                  type: date
+
+        - createTable:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: categories_id
+              - column:
+                  name: name
+                  type: varchar
+
+        - createTable:
+            tableName: offers
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: offers_id
+              - column:
+                  name: category_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: offers.category_id__categories.id__fk
+                    references: categories(id)
+                    nullable: false
+              - column:
+                  name: start_date
+                  type: date
+              - column:
+                  name: end_date
+                  type: date
+              - column:
+                  name: employer_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: offers.employer_id__users.id__fk
+                    references: users(id)
+                    nullable: false
+
+        # Category values
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: IT
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: Food & Drinks
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: Office
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: Courier
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: Shop assistant
